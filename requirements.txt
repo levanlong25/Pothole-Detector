@@ -1,0 +1,4 @@
+opencv-python
+supervision
+inference
+Pillow
