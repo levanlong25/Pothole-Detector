@@ -327,7 +327,7 @@ style_button(close_button, DANGER_COLOR, "white", DANGER_HOVER)
 # ======================
 preview_frame = tk.Frame(
     root,
-    width=650,
+    width=750,
     height=650,
     bg="white",
     borderwidth=0,
