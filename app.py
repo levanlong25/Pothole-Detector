@@ -5,34 +5,25 @@ from PIL import Image, ImageTk
 import os
 import detect_potholes as dp
 
-# ======================
-# 🎨 CẤU HÌNH GIAO DIỆN - MÀU SẮC & STYLE
-# ======================
-BG_COLOR = "#3CA1D7"          # Màu nền tổng thể
-PRIMARY_COLOR = "#0078d7"     # Màu nút chính
-PRIMARY_HOVER = "#005a9e"     # Màu khi di chuột qua nút chính
-SECONDARY_COLOR = "#6c757d"   # Màu nút phụ
-SECONDARY_HOVER = "#5a6268"   # Màu khi di chuột qua nút phụ
-DANGER_COLOR = "#e81123"      # Màu nút dừng
-DANGER_HOVER = "#c50f1f"      # Màu khi di chuột qua nút dừng
-TEXT_COLOR = "#EF0505"        # Màu tiêu đề
-SUBTEXT_COLOR = "#FB0000"     # Màu mô tả phụ
-SAVED_IMAGES_DIR = "save_potholes"  # Thư mục lưu ảnh kết quả phát hiện
+BG_COLOR = "#3CA1D7"          
+PRIMARY_COLOR = "#0078d7"    
+PRIMARY_HOVER = "#005a9e"     
+SECONDARY_COLOR = "#6c757d"  
+SECONDARY_HOVER = "#5a6268"   
+DANGER_COLOR = "#e81123"      
+DANGER_HOVER = "#c50f1f"     
+TEXT_COLOR = "#EF0505"        
+SUBTEXT_COLOR = "#FB0000"    
+SAVED_IMAGES_DIR = "save_potholes"  
 
-# ======================
-# 🪟 CỬA SỔ CHÍNH CỦA ỨNG DỤNG
-# ======================
 root = tk.Tk()
 root.title("Ứng dụng phát hiện ổ gà")
-root.geometry("1000x750")           # Kích thước cửa sổ
-root.resizable(True, True)          # Cho phép thay đổi kích thước
+root.geometry("1000x750")           
+root.resizable(True, True)          
 root.configure(bg=BG_COLOR)
 
-cap = None  # Biến toàn cục dùng để quản lý video đang phát hiện
+cap = None  
 
-# ======================
-# 🏷️ PHẦN TIÊU ĐỀ ỨNG DỤNG
-# ======================
 title_label = Label(
     root,
     text="Ứng dụng phát hiện ổ gà",
@@ -106,7 +97,7 @@ def detect_from_image():
         image = cv2.imread(file_path)
         detected_image = dp.detect_potholes(image)
         # Resize ảnh hiển thị cho phù hợp với giao diện
-        resized_image = resize_image(detected_image, 600)
+        resized_image = resize_image(detected_image, 475)
         img = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(img)
         imgtk = ImageTk.PhotoImage(image=img)

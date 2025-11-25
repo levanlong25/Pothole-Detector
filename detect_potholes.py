@@ -43,6 +43,10 @@ def detect_potholes(frame, save_result=True):
     results = model.infer(frame)[0]  # Trả về danh sách kết quả phát hiện
     # Chuyển kết quả inference sang đối tượng Detections của thư viện supervision
     detections = sv.Detections.from_inference(results)
+    # In ra tất cả toạ độ và confidence
+    for i, (box, conf) in enumerate(zip(detections.xyxy, detections.confidence)):
+        x1, y1, x2, y2 = box
+        print(f"Ổ gà {i+1}: Toạ độ = ({x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}),  Độ tin cậy = {conf:.2f}")
 
     # ======================
     # 🖍️ 2. TẠO ĐỐI TƯỢNG VẼ KHUNG & NHÃN
@@ -66,7 +70,7 @@ def detect_potholes(frame, save_result=True):
 
         # Ghi ảnh có khung và nhãn xuống thư mục kết quả
         cv2.imwrite(filepath, annotated_frame)
-        print(f"✅ Frame có ổ gà đã lưu: {filepath}")
+        print(f"Frame có ổ gà đã lưu: {filepath}")
 
     # ======================
     # 🔁 5. TRẢ KẾT QUẢ ĐÃ VẼ VỀ CHO ỨNG DỤNG
