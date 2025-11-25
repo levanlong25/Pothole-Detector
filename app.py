@@ -4,6 +4,7 @@ from tkinter import filedialog, Label, Button
 from PIL import Image, ImageTk
 import os
 import detect_potholes as dp
+import numpy as np
 
 BG_COLOR = "#3CA1D7"          
 PRIMARY_COLOR = "#0078d7"    
@@ -89,21 +90,31 @@ def resize_image(image, target_height):
 # 📸 CHỨC NĂNG PHÁT HIỆN Ổ GÀ TRÊN ẢNH
 # ======================
 def detect_from_image():
-    """Xử lý phát hiện ổ gà từ ảnh tĩnh"""
+    """Xử lý phát hiện ổ gà từ ảnh tĩnh (Hỗ trợ đường dẫn Tiếng Việt)"""
     hide_initial_buttons()
     file_path = filedialog.askopenfilename(filetypes=[("Ảnh", "*.jpg *.png *.jpeg")])
+    
     if file_path:
-        # Đọc ảnh và đưa vào module detect_potholes
-        image = cv2.imread(file_path)
-        detected_image = dp.detect_potholes(image)
-        # Resize ảnh hiển thị cho phù hợp với giao diện
-        resized_image = resize_image(detected_image, 475)
-        img = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(img)
-        imgtk = ImageTk.PhotoImage(image=img)
-        # Hiển thị ảnh kết quả lên giao diện
-        empty_label.imgtk = imgtk
-        empty_label.configure(image=imgtk)
+        try:
+            stream = np.fromfile(file_path, dtype=np.uint8)
+            image = cv2.imdecode(stream, cv2.IMREAD_COLOR)
+
+            if image is None:
+                raise ValueError("Không thể đọc file ảnh. File có thể bị lỗi.")
+
+            detected_image = dp.detect_potholes(image) 
+            
+            resized_image = resize_image(detected_image, 475)
+            img = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+            imgtk = ImageTk.PhotoImage(image=img)
+            
+            empty_label.imgtk = imgtk
+            empty_label.configure(image=imgtk, text="")
+        except Exception as e:
+            empty_label.configure(text=f"Lỗi xử lý ảnh: {e}", image="")
+            print(f"Lỗi: {e}")
+            reset_ui() 
     else:
         reset_ui()
 
