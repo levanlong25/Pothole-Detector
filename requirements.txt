@@ -1,4 +1,6 @@
-opencv-python
-supervision
-inference
-Pillow
+opencv-python 
+supervision 
+inference 
+Pillow 
+numpy 
+opencv-python-headless
